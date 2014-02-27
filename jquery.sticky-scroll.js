@@ -12,7 +12,7 @@
 	$.fn.stickyScroll = function(opts) {
 		var $this = $(this),
 		    settings = $.extend({
-		    	stickToBottom: $this.hasClass('sticky-bottom')
+		    	stickToBottom: $this.hasClass('stick-bottom')
 		    }, opts);
 		
 		var $window = $(window),
