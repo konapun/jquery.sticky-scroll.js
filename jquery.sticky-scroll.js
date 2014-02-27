@@ -11,20 +11,33 @@
 	 */
 	$.fn.stickyScroll = function(opts) {
 		var $this = $(this),
-		    settings = $.extend({}, opts);
+		    settings = $.extend({
+		    	stickToBottom: $this.hasClass('sticky-bottom')
+		    }, opts);
 		
 		var $window = $(window),
 		    $stick = settings.stick,
 		    $unstick = settings.unstick,
 		    top = $this.offset().top,
+		    bottom = $(document).height(),
 		    makeSticky = function() {
-				$window.scroll(function() {
-					var windowTop = $window.scrollTop();
-					$this.toggleClass('sticky', windowTop > top);
-				});
-			}
-		
-		/* Events */
+		    	if (settings.stickToBottom) {
+		    		$window.scroll(function() {
+		    			var windowBottom = $window.scrollTop() + $(window).height();
+		    			$this.toggleClass('sticky stick-bottom', windowBottom < bottom);
+		    			$this.css('z-index', 999);
+		    		});
+		    	}
+		    	else {
+		    		$window.scroll(function() {
+		    			var windowTop = $window.scrollTop();
+		    			$this.toggleClass('sticky stick-top', windowTop > top);
+		    			$this.css('z-index', 999);
+		    		});
+		    	}
+		    };
+         
+        /* Events */
 		if ($stick) {
 			$stick.hide();
 			$stick.click(function() {
@@ -38,8 +51,6 @@
 		
 		if ($unstick) {
 			$unstick.click(function() {
-				var windowTop = $window.scrollTop();
-				
 				$this.removeClass('sticky');
 				$window.unbind('scroll');
 				if ($stick) {

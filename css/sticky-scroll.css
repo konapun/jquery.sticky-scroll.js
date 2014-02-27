@@ -1,4 +1,11 @@
 .sticky {
 	position: fixed;
+}
+
+.stick-top {
 	top: 0;
+}
+
+.stick-bottom {
+	bottom: 0;
 }
